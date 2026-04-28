@@ -1,48 +1,20 @@
-import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import type { SectionProps } from "@/types"
 
-const visible = { opacity: 1, y: 0 }
-const hidden = { opacity: 0, y: 30 }
-
-export default function Section({ id, title, subtitle, content, isActive, showButton, buttonText, onButtonClick }: SectionProps) {
+export default function Section({ id, title, subtitle, content, showButton, buttonText, onButtonClick }: SectionProps) {
   return (
     <section id={id} className="relative h-screen w-full snap-start flex flex-col justify-center p-8 md:p-16 lg:p-24">
-      {subtitle && (
-        <motion.div
-          className="mb-12"
-          initial={hidden}
-          animate={isActive ? visible : hidden}
-          transition={{ duration: 0.5 }}
-        >
-          {subtitle}
-        </motion.div>
-      )}
-      <motion.h2
-        className="text-4xl md:text-6xl lg:text-[5rem] xl:text-[6rem] font-bold leading-[1.1] tracking-tight max-w-4xl text-white"
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.5 }}
-      >
+      {subtitle && <div className="mb-12">{subtitle}</div>}
+      <h2 className="text-4xl md:text-6xl lg:text-[5rem] xl:text-[6rem] font-bold leading-[1.1] tracking-tight max-w-4xl text-white">
         {title}
-      </motion.h2>
+      </h2>
       {content && (
-        <motion.p
-          className="text-lg md:text-xl lg:text-2xl max-w-2xl mt-6 text-neutral-400"
-          initial={isActive ? visible : hidden}
-          animate={isActive ? visible : hidden}
-          transition={{ duration: 0.5, delay: 0.15 }}
-        >
+        <p className="text-lg md:text-xl lg:text-2xl max-w-2xl mt-6 text-neutral-400">
           {content}
-        </motion.p>
+        </p>
       )}
       {showButton && (
-        <motion.div
-          initial={isActive ? visible : hidden}
-          animate={isActive ? visible : hidden}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-12 md:mt-16"
-        >
+        <div className="mt-12 md:mt-16">
           <Button
             variant="outline"
             size="lg"
@@ -51,7 +23,7 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
           >
             {buttonText}
           </Button>
-        </motion.div>
+        </div>
       )}
     </section>
   )

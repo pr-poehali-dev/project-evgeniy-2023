@@ -13,7 +13,6 @@ export default function LandingPage() {
   const { scrollYProgress } = useScroll({ container: containerRef })
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
 
-  // sections + questions + result
   const totalSections = sections.length + questions.length + 1
 
   useEffect(() => {
@@ -32,10 +31,6 @@ export default function LandingPage() {
 
   const scrollTo = (index: number) => {
     containerRef.current?.scrollTo({ top: index * window.innerHeight, behavior: 'smooth' })
-  }
-
-  const handleStartQuiz = () => {
-    scrollTo(sections.length)
   }
 
   const handleToggle = (qIndex: number, oIndex: number, type: string) => {
@@ -88,7 +83,7 @@ export default function LandingPage() {
             key={section.id}
             {...section}
             isActive={index === activeSection}
-            onButtonClick={section.showButton ? handleStartQuiz : undefined}
+            onButtonClick={section.showButton ? () => scrollTo(sections.length) : undefined}
           />
         ))}
         {questions.map((q, qi) => (
@@ -97,7 +92,6 @@ export default function LandingPage() {
             question={q}
             qIndex={qi}
             total={questions.length}
-            isActive={sections.length + qi === activeSection}
             checked={!!checked[qi]}
             selected={answers[qi] ?? []}
             onToggle={(oIndex) => handleToggle(qi, oIndex, q.type)}
@@ -108,7 +102,6 @@ export default function LandingPage() {
         <QuizResult
           score={score}
           total={questions.length}
-          isActive={activeSection === totalSections - 1}
           onReset={handleReset}
         />
       </div>

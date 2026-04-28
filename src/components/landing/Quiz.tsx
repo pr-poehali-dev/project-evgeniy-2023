@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
 export const questions = [
@@ -58,14 +57,10 @@ export const questions = [
   },
 ]
 
-const visible = { opacity: 1, y: 0 }
-const hidden = { opacity: 0, y: 20 }
-
 interface QuizQuestionProps {
   question: typeof questions[0]
   qIndex: number
   total: number
-  isActive: boolean
   checked: boolean
   selected: number[]
   onToggle: (oIndex: number) => void
@@ -73,9 +68,7 @@ interface QuizQuestionProps {
   isLast: boolean
 }
 
-export function QuizQuestion({
-  question, qIndex, total, isActive, checked, selected, onToggle, onCheck, isLast,
-}: QuizQuestionProps) {
+export function QuizQuestion({ question, qIndex, total, checked, selected, onToggle, onCheck, isLast }: QuizQuestionProps) {
   const getStyle = (oIndex: number) => {
     if (!checked) {
       return selected.includes(oIndex)
@@ -94,39 +87,16 @@ export function QuizQuestion({
 
   return (
     <section className="relative h-screen w-full snap-start flex flex-col justify-center p-8 md:p-16 lg:p-24">
-      <motion.p
-        className="text-neutral-500 text-sm mb-4 uppercase tracking-widest"
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.4 }}
-      >
+      <p className="text-neutral-500 text-sm mb-4 uppercase tracking-widest">
         Вопрос {qIndex + 1} из {total}
-      </motion.p>
-
-      <motion.h2
-        className="text-2xl md:text-4xl font-bold text-white mb-2 max-w-2xl leading-tight"
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.5, delay: 0.05 }}
-      >
+      </p>
+      <h2 className="text-2xl md:text-4xl font-bold text-white mb-2 max-w-2xl leading-tight">
         {question.text}
-      </motion.h2>
-
-      <motion.p
-        className="text-neutral-500 text-sm mb-6"
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.4, delay: 0.1 }}
-      >
+      </h2>
+      <p className="text-neutral-500 text-sm mb-6">
         {question.type === "multi" ? "Выбери все верные варианты" : "Один правильный ответ"}
-      </motion.p>
-
-      <motion.div
-        className="space-y-3 max-w-xl"
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.5, delay: 0.15 }}
-      >
+      </p>
+      <div className="space-y-3 max-w-xl">
         {question.options.map((opt, oi) => (
           <button
             key={oi}
@@ -136,14 +106,8 @@ export function QuizQuestion({
             {opt}
           </button>
         ))}
-      </motion.div>
-
-      <motion.div
-        className="mt-8 flex items-center gap-4 flex-wrap"
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.4, delay: 0.2 }}
-      >
+      </div>
+      <div className="mt-8 flex items-center gap-4 flex-wrap">
         {!checked ? (
           <Button
             size="lg"
@@ -163,7 +127,7 @@ export function QuizQuestion({
             )}
           </div>
         )}
-      </motion.div>
+      </div>
     </section>
   )
 }
@@ -171,56 +135,30 @@ export function QuizQuestion({
 interface QuizResultProps {
   score: number
   total: number
-  isActive: boolean
   onReset: () => void
 }
 
-export function QuizResult({ score, total, isActive, onReset }: QuizResultProps) {
+export function QuizResult({ score, total, onReset }: QuizResultProps) {
   const percent = Math.round((score / total) * 100)
   return (
     <section className="relative h-screen w-full snap-start flex flex-col justify-center p-8 md:p-16 lg:p-24">
-      <motion.p
-        className="text-neutral-500 text-sm mb-4 uppercase tracking-widest"
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.4 }}
-      >
-        Результат
-      </motion.p>
-      <motion.h2
-        className="text-5xl md:text-7xl font-bold text-white mb-4"
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.5, delay: 0.05 }}
-      >
-        {score} из {total}
-      </motion.h2>
-      <motion.p
-        className="text-neutral-400 text-xl mb-10"
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.4, delay: 0.1 }}
-      >
+      <p className="text-neutral-500 text-sm mb-4 uppercase tracking-widest">Результат</p>
+      <h2 className="text-5xl md:text-7xl font-bold text-white mb-4">{score} из {total}</h2>
+      <p className="text-neutral-400 text-xl mb-10">
         {percent >= 80
           ? "Отличный результат! Материал усвоен хорошо."
           : percent >= 60
           ? "Неплохо, но есть что повторить."
           : "Стоит ещё раз пройти материал."}
-      </motion.p>
-      <motion.div
-        initial={isActive ? visible : hidden}
-        animate={isActive ? visible : hidden}
-        transition={{ duration: 0.4, delay: 0.15 }}
+      </p>
+      <Button
+        variant="outline"
+        size="lg"
+        className="text-[#FF4D00] bg-transparent border-[#FF4D00] hover:bg-[#FF4D00] hover:text-black transition-colors w-fit"
+        onClick={onReset}
       >
-        <Button
-          variant="outline"
-          size="lg"
-          className="text-[#FF4D00] bg-transparent border-[#FF4D00] hover:bg-[#FF4D00] hover:text-black transition-colors"
-          onClick={onReset}
-        >
-          Пройти снова
-        </Button>
-      </motion.div>
+        Пройти снова
+      </Button>
     </section>
   )
 }
