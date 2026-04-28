@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
@@ -59,6 +58,9 @@ export const questions = [
   },
 ]
 
+const visible = { opacity: 1, y: 0 }
+const hidden = { opacity: 0, y: 20 }
+
 interface QuizQuestionProps {
   question: typeof questions[0]
   qIndex: number
@@ -72,15 +74,7 @@ interface QuizQuestionProps {
 }
 
 export function QuizQuestion({
-  question,
-  qIndex,
-  total,
-  isActive,
-  checked,
-  selected,
-  onToggle,
-  onCheck,
-  isLast,
+  question, qIndex, total, isActive, checked, selected, onToggle, onCheck, isLast,
 }: QuizQuestionProps) {
   const getStyle = (oIndex: number) => {
     if (!checked) {
@@ -102,8 +96,8 @@ export function QuizQuestion({
     <section className="relative h-screen w-full snap-start flex flex-col justify-center p-8 md:p-16 lg:p-24">
       <motion.p
         className="text-neutral-500 text-sm mb-4 uppercase tracking-widest"
-        initial={{ opacity: 0 }}
-        animate={isActive ? { opacity: 1 } : {}}
+        initial={isActive ? visible : hidden}
+        animate={isActive ? visible : hidden}
         transition={{ duration: 0.4 }}
       >
         Вопрос {qIndex + 1} из {total}
@@ -111,17 +105,17 @@ export function QuizQuestion({
 
       <motion.h2
         className="text-2xl md:text-4xl font-bold text-white mb-2 max-w-2xl leading-tight"
-        initial={{ opacity: 0, y: 40 }}
-        animate={isActive ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5 }}
+        initial={isActive ? visible : hidden}
+        animate={isActive ? visible : hidden}
+        transition={{ duration: 0.5, delay: 0.05 }}
       >
         {question.text}
       </motion.h2>
 
       <motion.p
         className="text-neutral-500 text-sm mb-6"
-        initial={{ opacity: 0 }}
-        animate={isActive ? { opacity: 1 } : {}}
+        initial={isActive ? visible : hidden}
+        animate={isActive ? visible : hidden}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         {question.type === "multi" ? "Выбери все верные варианты" : "Один правильный ответ"}
@@ -129,9 +123,9 @@ export function QuizQuestion({
 
       <motion.div
         className="space-y-3 max-w-xl"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isActive ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        initial={isActive ? visible : hidden}
+        animate={isActive ? visible : hidden}
+        transition={{ duration: 0.5, delay: 0.15 }}
       >
         {question.options.map((opt, oi) => (
           <button
@@ -146,9 +140,9 @@ export function QuizQuestion({
 
       <motion.div
         className="mt-8 flex items-center gap-4 flex-wrap"
-        initial={{ opacity: 0 }}
-        animate={isActive ? { opacity: 1 } : {}}
-        transition={{ duration: 0.4, delay: 0.3 }}
+        initial={isActive ? visible : hidden}
+        animate={isActive ? visible : hidden}
+        transition={{ duration: 0.4, delay: 0.2 }}
       >
         {!checked ? (
           <Button
@@ -187,34 +181,36 @@ export function QuizResult({ score, total, isActive, onReset }: QuizResultProps)
     <section className="relative h-screen w-full snap-start flex flex-col justify-center p-8 md:p-16 lg:p-24">
       <motion.p
         className="text-neutral-500 text-sm mb-4 uppercase tracking-widest"
-        initial={{ opacity: 0 }}
-        animate={isActive ? { opacity: 1 } : {}}
+        initial={isActive ? visible : hidden}
+        animate={isActive ? visible : hidden}
         transition={{ duration: 0.4 }}
       >
         Результат
       </motion.p>
       <motion.h2
         className="text-5xl md:text-7xl font-bold text-white mb-4"
-        initial={{ opacity: 0, y: 40 }}
-        animate={isActive ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5 }}
+        initial={isActive ? visible : hidden}
+        animate={isActive ? visible : hidden}
+        transition={{ duration: 0.5, delay: 0.05 }}
       >
         {score} из {total}
       </motion.h2>
       <motion.p
         className="text-neutral-400 text-xl mb-10"
-        initial={{ opacity: 0 }}
-        animate={isActive ? { opacity: 1 } : {}}
-        transition={{ duration: 0.4, delay: 0.2 }}
+        initial={isActive ? visible : hidden}
+        animate={isActive ? visible : hidden}
+        transition={{ duration: 0.4, delay: 0.1 }}
       >
-        {percent >= 80 ? "Отличный результат! Материал усвоен хорошо." :
-         percent >= 60 ? "Неплохо, но есть что повторить." :
-         "Стоит ещё раз пройти материал."}
+        {percent >= 80
+          ? "Отличный результат! Материал усвоен хорошо."
+          : percent >= 60
+          ? "Неплохо, но есть что повторить."
+          : "Стоит ещё раз пройти материал."}
       </motion.p>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={isActive ? { opacity: 1 } : {}}
-        transition={{ duration: 0.4, delay: 0.3 }}
+        initial={isActive ? visible : hidden}
+        animate={isActive ? visible : hidden}
+        transition={{ duration: 0.4, delay: 0.15 }}
       >
         <Button
           variant="outline"
