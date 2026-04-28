@@ -61,7 +61,7 @@ export default function LandingPage() {
       />
       <div
         ref={containerRef}
-        className="h-full overflow-y-auto snap-y snap-mandatory"
+        className="h-full overflow-y-auto snap-y snap-proximity"
       >
         {sections.map((section, index) => (
           <Section

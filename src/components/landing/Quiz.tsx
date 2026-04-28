@@ -97,7 +97,7 @@ export default function Quiz({ isActive }: { isActive: boolean }) {
   }
 
   return (
-    <section className="relative min-h-screen w-full snap-start flex flex-col justify-center p-8 md:p-16 overflow-y-auto py-20">
+    <section className="relative w-full snap-start flex flex-col justify-start p-8 md:p-16 py-20">
       <motion.h2
         className="text-4xl md:text-5xl font-bold text-white mb-12 leading-tight"
         initial={{ opacity: 0, y: 50 }}
